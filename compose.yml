@@ -1,10 +1,14 @@
----
 version: "3"
 services:
  devopsdb:
    image: sivadockerz/javaproject:db
    ports:
      - "3306:3306"
+   deploy:
+     replicas: 2
+   networks:
+     - dbnetwork
+
 
  application:
    image: sivadockerz/javaproject:app
@@ -12,3 +16,14 @@ services:
      - "1111:8080"
    depends_on:
      - "devopsdb"
+   deploy:
+     replicas: 2
+   networks:
+     - appnetwork
+
+networks:
+  dbnetwork:
+    driver: overlay
+  appnetwork:
+    driver: overlay
+
